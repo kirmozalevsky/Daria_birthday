@@ -8,120 +8,120 @@
 <style>
 body{
 margin:0;
+padding:0;
 font-family:Arial, sans-serif;
-background:linear-gradient(180deg,#220000,#3b0000,#120000);
+background:linear-gradient(180deg,#1a0000,#3d0000,#120000);
 color:white;
 text-align:center;
 min-height:100vh;
-padding:30px;
+}
+
+.wrap{
+padding:30px 20px;
+max-width:520px;
+margin:auto;
 }
 
 h1{
-font-size:42px;
 color:#ffd700;
+font-size:42px;
 margin-bottom:10px;
-text-shadow:0 0 12px rgba(255,215,0,0.4);
+text-shadow:0 0 15px rgba(255,215,0,.35);
 }
 
-.subtitle{
-opacity:.85;
-margin-bottom:30px;
+.sub{
+opacity:.8;
+margin-bottom:28px;
 }
 
-.card{
-max-width:420px;
-margin:auto;
+.box{
 background:rgba(255,255,255,.06);
-padding:25px;
-border-radius:20px;
+padding:28px;
+border-radius:22px;
 box-shadow:0 0 25px rgba(0,0,0,.4);
-backdrop-filter:blur(6px);
 }
 
 input{
-width:90%;
+width:92%;
 padding:15px;
 font-size:18px;
 border:none;
 border-radius:12px;
-margin-bottom:18px;
 text-align:center;
+margin-bottom:18px;
 }
 
 button{
-padding:16px 34px;
+padding:16px 30px;
 font-size:22px;
 border:none;
 border-radius:14px;
 background:linear-gradient(90deg,#d4af37,#ffd700);
 font-weight:bold;
 cursor:pointer;
-box-shadow:0 0 18px rgba(255,215,0,.45);
 }
 
 button:hover{transform:scale(1.03);}
 
 #rolling{
-margin-top:28px;
+margin-top:25px;
 font-size:26px;
-min-height:40px;
-opacity:.9;
+min-height:45px;
 }
 
 #result{
-margin-top:25px;
+margin-top:22px;
 font-size:34px;
 font-weight:bold;
 line-height:1.3;
 }
 
 #poster{
-margin-top:20px;
-max-width:260px;
-width:90%;
-border-radius:18px;
-box-shadow:0 0 25px rgba(0,0,0,.5);
 display:none;
+margin-top:18px;
+max-width:270px;
+width:92%;
+border-radius:18px;
+box-shadow:0 0 24px rgba(0,0,0,.5);
+}
+
+.msg{
+margin-top:18px;
+font-size:20px;
+color:#ffd0d0;
 }
 
 .small{
 margin-top:18px;
-font-size:13px;
-opacity:.65;
+font-size:12px;
+opacity:.6;
 cursor:pointer;
 }
 
-#adminPanel{
+#admin{
 display:none;
-margin-top:20px;
+margin-top:15px;
 }
 
 .adminBtn{
 margin:6px;
-font-size:15px;
-padding:10px 18px;
+padding:10px 14px;
+font-size:14px;
 }
-
-.msg{
-margin-top:20px;
-font-size:20px;
-color:#ffd7d7;
-}
-
 </style>
 </head>
 <body>
 
+<div class="wrap">
+
 <h1>🎬 Daria Birthday Cinema</h1>
-<div class="subtitle">Luxury Movie Night</div>
+<div class="sub">Luxury Movie Night</div>
 
-<div class="card">
+<div class="box">
 
-<input id="nameInput" placeholder="Введите своё имя">
+<input id="name" placeholder="Введите своё имя">
 
-<br>
-
-<button onclick="startGame()">🎲 Испытать судьбу</button>
+<button onclick="play()">🎲 Испытать судьбу</button>
 
 <div id="rolling"></div>
 <div id="result"></div>
@@ -129,145 +129,154 @@ color:#ffd7d7;
 
 <div class="msg" id="msg"></div>
 
-<div class="small" onclick="toggleAdmin()">admin</div>
+<div class="small" onclick="admin()">admin</div>
 
-<div id="adminPanel">
+<div id="admin">
 <button class="adminBtn" onclick="resetAll()">Сбросить всё</button>
-<button class="adminBtn" onclick="testMode()">Тест прокрутки</button>
+<button class="adminBtn" onclick="testSpin()">Тест</button>
 </div>
 
+</div>
 </div>
 
 <script>
 
+const sheetURL="https://script.google.com/macros/s/AKfycbwnde_-a6LXALfDc5AmIgUoUb_NentvbgbHMpQ0lNNFa9jynGd9qggA8mUi58bPLmaS3Q/exec";
+
 let films = [
-{name:"Гарри Поттер",img:"https://m.media-amazon.com/images/I/81iqZ2HHD-L.jpg"},
-{name:"Очень странные дела",img:"https://m.media-amazon.com/images/I/81q4p0R5YSL.jpg"},
-{name:"Шрек",img:"https://m.media-amazon.com/images/I/71HPEOoQf-L.jpg"},
-{name:"Чарли и шоколадная фабрика",img:"https://m.media-amazon.com/images/I/71K0g6+Qk4L.jpg"},
-{name:"Один дома",img:"https://m.media-amazon.com/images/I/81w+7G8Jb-L.jpg"},
-{name:"Титаник",img:"https://m.media-amazon.com/images/I/71U6Y4M0k-L.jpg"},
-{name:"Король лев",img:"https://m.media-amazon.com/images/I/81D3jJ0l0-L.jpg"},
-{name:"Ледниковый период",img:"https://m.media-amazon.com/images/I/81i4C2WzjSL.jpg"},
-{name:"Черный лебедь",img:"https://m.media-amazon.com/images/I/71mNQ9Dk0XL.jpg"},
-{name:"Голодные игры",img:"https://m.media-amazon.com/images/I/81L6N0g8hXL.jpg"},
-{name:"Как избежать наказание за убийство",img:"https://m.media-amazon.com/images/I/81YwY0V4M7L.jpg"},
-{name:"Пираты Карибского моря",img:"https://m.media-amazon.com/images/I/81d6V4Z0HnL.jpg"},
-{name:"Очень страшное кино",img:"https://m.media-amazon.com/images/I/71W7f0M7MPL.jpg"},
-{name:"Хроники Нарнии",img:"https://m.media-amazon.com/images/I/81f6u0m2XUL.jpg"},
-{name:"Бурлеск",img:"https://m.media-amazon.com/images/I/71wN7rR1M7L.jpg"},
-{name:"5 элемент",img:"https://m.media-amazon.com/images/I/71M7J4d0MJL.jpg"},
-{name:"50 оттенков серого",img:"https://m.media-amazon.com/images/I/81A6M0RkW-L.jpg"},
-{name:"Американская история ужасов",img:"https://m.media-amazon.com/images/I/81W2nQY4BzL.jpg"},
-{name:"Алиса в стране чудес",img:"https://m.media-amazon.com/images/I/81fB6QXzvJL.jpg"},
-{name:"Сумерки",img:"https://m.media-amazon.com/images/I/71wV6L2K2SL.jpg"},
-{name:"Холодное сердце",img:"https://m.media-amazon.com/images/I/81Kz06X9WwL.jpg"}
+{name:"Гарри Поттер",img:"https://picsum.photos/300/450?1"},
+{name:"Очень странные дела",img:"https://picsum.photos/300/450?2"},
+{name:"Шрек",img:"https://picsum.photos/300/450?3"},
+{name:"Чарли и шоколадная фабрика",img:"https://picsum.photos/300/450?4"},
+{name:"Один дома",img:"https://picsum.photos/300/450?5"},
+{name:"Титаник",img:"https://picsum.photos/300/450?6"},
+{name:"Король лев",img:"https://picsum.photos/300/450?7"},
+{name:"Ледниковый период",img:"https://picsum.photos/300/450?8"},
+{name:"Черный лебедь",img:"https://picsum.photos/300/450?9"},
+{name:"Голодные игры",img:"https://picsum.photos/300/450?10"},
+{name:"Как избежать наказание за убийство",img:"https://picsum.photos/300/450?11"},
+{name:"Пираты Карибского моря",img:"https://picsum.photos/300/450?12"},
+{name:"Очень страшное кино",img:"https://picsum.photos/300/450?13"},
+{name:"Хроники Нарнии",img:"https://picsum.photos/300/450?14"},
+{name:"Бурлеск",img:"https://picsum.photos/300/450?15"},
+{name:"5 элемент",img:"https://picsum.photos/300/450?16"},
+{name:"50 оттенков серого",img:"https://picsum.photos/300/450?17"},
+{name:"Американская история ужасов",img:"https://picsum.photos/300/450?18"},
+{name:"Алиса в стране чудес",img:"https://picsum.photos/300/450?19"},
+{name:"Сумерки",img:"https://picsum.photos/300/450?20"},
+{name:"Холодное сердце",img:"https://picsum.photos/300/450?21"}
 ];
 
-function normalize(name){
-return name.trim().toLowerCase();
-}
+function norm(v){ return v.trim().toLowerCase(); }
 
-function startGame(){
+function play(){
 
-let name = document.getElementById("nameInput").value.trim();
+clearUI();
 
-clearView();
+let name=document.getElementById("name").value.trim();
 
-if(name==""){
-showMsg("Введите имя");
+if(!name){
+msg("Введите имя");
 return;
 }
 
-let players = JSON.parse(localStorage.getItem("players")) || {};
-let used = JSON.parse(localStorage.getItem("usedFilms")) || [];
+let players=JSON.parse(localStorage.getItem("players"))||{};
+let used=JSON.parse(localStorage.getItem("used"))||[];
 
-let key = normalize(name);
+let key=norm(name);
 
 if(players[key]){
-showMsg("⚠️ По этому имени фильм уже выбран.");
+msg("⚠️ По этому имени фильм уже выбран.");
 return;
 }
 
-let available = films.filter(f=>!used.includes(f.name));
+let available=films.filter(f=>!used.includes(f.name));
 
-if(available.length==0){
-showMsg("Все фильмы разобраны 🎬");
+if(available.length===0){
+msg("Все фильмы разобраны 🎬");
 return;
 }
 
-rollAnimation(()=>{
-let chosen = available[Math.floor(Math.random()*available.length)];
+spin(()=>{
+let chosen=available[Math.floor(Math.random()*available.length)];
 
 players[key]=chosen.name;
 used.push(chosen.name);
 
 localStorage.setItem("players",JSON.stringify(players));
-localStorage.setItem("usedFilms",JSON.stringify(used));
+localStorage.setItem("used",JSON.stringify(used));
 
-showResult(chosen);
+show(chosen);
+
+saveToSheet(name,chosen.name);
 });
 
 }
 
-function rollAnimation(callback){
+function spin(done){
 
-let rolling = document.getElementById("rolling");
-let i=0;
+let roll=document.getElementById("rolling");
+let c=0;
 
-let timer = setInterval(()=>{
-rolling.innerHTML = films[Math.floor(Math.random()*films.length)].name;
-i++;
-if(i>18){
-clearInterval(timer);
-rolling.innerHTML="";
-callback();
+let t=setInterval(()=>{
+roll.innerHTML=films[Math.floor(Math.random()*films.length)].name;
+c++;
+if(c>18){
+clearInterval(t);
+roll.innerHTML="";
+done();
 }
 },140);
 
 }
 
-function showResult(chosen){
-
-document.getElementById("result").innerHTML="🎉<br>"+chosen.name;
-
-let poster = document.getElementById("poster");
-poster.src = chosen.img;
-poster.style.display="inline-block";
-
+function show(f){
+document.getElementById("result").innerHTML="🎉<br>"+f.name;
+let p=document.getElementById("poster");
+p.src=f.img;
+p.style.display="inline-block";
 }
 
-function showMsg(text){
-document.getElementById("msg").innerHTML=text;
+function msg(t){
+document.getElementById("msg").innerHTML=t;
 }
 
-function clearView(){
+function clearUI(){
 document.getElementById("msg").innerHTML="";
 document.getElementById("result").innerHTML="";
-document.getElementById("poster").style.display="none";
 document.getElementById("rolling").innerHTML="";
+document.getElementById("poster").style.display="none";
 }
 
-function toggleAdmin(){
-let pass = prompt("Пароль:");
+function saveToSheet(name,film){
+fetch(sheetURL,{
+method:"POST",
+body:JSON.stringify({
+name:name,
+film:film
+})
+});
+}
+
+function admin(){
+let pass=prompt("Пароль:");
 if(pass==="Daria2026"){
-let p = document.getElementById("adminPanel");
-p.style.display = p.style.display==="block" ? "none":"block";
+document.getElementById("admin").style.display="block";
 }
 }
 
 function resetAll(){
-if(confirm("Очистить результаты?")){
+if(confirm("Сбросить всё?")){
 localStorage.removeItem("players");
-localStorage.removeItem("usedFilms");
+localStorage.removeItem("used");
 alert("Готово");
 }
 }
 
-function testMode(){
-clearView();
-rollAnimation(()=>{
-showMsg("Тест завершён (ничего не сохранено)");
+function testSpin(){
+clearUI();
+spin(()=>{
+msg("Тест завершён");
 });
 }
 
