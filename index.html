@@ -2,97 +2,139 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Daria Birthday Cinema</title>
 
 <style>
 body{
 margin:0;
-padding:0;
-font-family:Arial, sans-serif;
-background:linear-gradient(180deg,#1a0000,#3d0000,#120000);
+font-family:Arial,sans-serif;
+background:radial-gradient(circle at top,#5a0000,#220000,#120000);
 color:white;
 text-align:center;
 min-height:100vh;
-}
-
-.wrap{
-padding:30px 20px;
-max-width:520px;
-margin:auto;
+padding:20px;
+overflow-x:hidden;
 }
 
 h1{
 color:#ffd700;
 font-size:42px;
-margin-bottom:10px;
-text-shadow:0 0 15px rgba(255,215,0,.35);
+margin-bottom:8px;
+text-shadow:0 0 15px rgba(255,215,0,.45);
 }
 
 .sub{
-opacity:.8;
-margin-bottom:28px;
+opacity:.85;
+margin-bottom:18px;
 }
 
-.box{
+#wheelWrap{
+position:relative;
+width:340px;
+height:340px;
+margin:20px auto;
+}
+
+#wheel{
+width:100%;
+height:100%;
+border-radius:50%;
+border:8px solid #d4af37;
+box-shadow:0 0 25px rgba(255,215,0,.25);
+transition:transform 5s cubic-bezier(.15,.8,.2,1);
+background:
+conic-gradient(
+#7a0000 0deg 17deg,
+#b30000 17deg 34deg,
+#6d0000 34deg 51deg,
+#8f0000 51deg 68deg,
+#5c0000 68deg 85deg,
+#9a0000 85deg 102deg,
+#700000 102deg 119deg,
+#b80000 119deg 136deg,
+#6a0000 136deg 153deg,
+#960000 153deg 170deg,
+#7a0000 170deg 187deg,
+#b30000 187deg 204deg,
+#6d0000 204deg 221deg,
+#8f0000 221deg 238deg,
+#5c0000 238deg 255deg,
+#9a0000 255deg 272deg,
+#700000 272deg 289deg,
+#b80000 289deg 306deg,
+#6a0000 306deg 323deg,
+#960000 323deg 340deg,
+#7a0000 340deg 360deg
+);
+}
+
+#pointer{
+position:absolute;
+top:-12px;
+left:50%;
+transform:translateX(-50%);
+font-size:34px;
+color:#ffd700;
+text-shadow:0 0 12px gold;
+}
+
+.panel{
+max-width:420px;
+margin:auto;
 background:rgba(255,255,255,.06);
-padding:28px;
-border-radius:22px;
-box-shadow:0 0 25px rgba(0,0,0,.4);
+padding:22px;
+border-radius:18px;
+box-shadow:0 0 25px rgba(0,0,0,.35);
 }
 
 input{
 width:92%;
-padding:15px;
+padding:14px;
 font-size:18px;
 border:none;
 border-radius:12px;
 text-align:center;
-margin-bottom:18px;
+margin-bottom:15px;
 }
 
 button{
-padding:16px 30px;
+padding:16px 28px;
 font-size:22px;
 border:none;
 border-radius:14px;
-background:linear-gradient(90deg,#d4af37,#ffd700);
-font-weight:bold;
 cursor:pointer;
+font-weight:bold;
+background:linear-gradient(90deg,#d4af37,#ffd700);
 }
 
 button:hover{transform:scale(1.03);}
-
-#rolling{
-margin-top:25px;
-font-size:26px;
-min-height:45px;
-}
 
 #result{
 margin-top:22px;
 font-size:34px;
 font-weight:bold;
-line-height:1.3;
+line-height:1.25;
 }
 
 #poster{
 display:none;
 margin-top:18px;
-max-width:270px;
+max-width:260px;
 width:92%;
 border-radius:18px;
-box-shadow:0 0 24px rgba(0,0,0,.5);
+box-shadow:0 0 25px rgba(0,0,0,.55);
+animation:fade .8s ease;
 }
 
 .msg{
-margin-top:18px;
+margin-top:16px;
 font-size:20px;
-color:#ffd0d0;
+color:#ffd2d2;
 }
 
 .small{
-margin-top:18px;
+margin-top:16px;
 font-size:12px;
 opacity:.6;
 cursor:pointer;
@@ -100,89 +142,89 @@ cursor:pointer;
 
 #admin{
 display:none;
-margin-top:15px;
+margin-top:12px;
 }
 
 .adminBtn{
-margin:6px;
-padding:10px 14px;
+margin:5px;
+padding:9px 14px;
 font-size:14px;
+}
+
+@keyframes fade{
+from{opacity:0;transform:scale(.8);}
+to{opacity:1;transform:scale(1);}
 }
 </style>
 </head>
 <body>
 
-<div class="wrap">
-
 <h1>🎬 Daria Birthday Cinema</h1>
-<div class="sub">Luxury Movie Night</div>
+<div class="sub">Luxury Wheel Edition</div>
 
-<div class="box">
+<div id="wheelWrap">
+<div id="pointer">▼</div>
+<div id="wheel"></div>
+</div>
 
+<div class="panel">
 <input id="name" placeholder="Введите своё имя">
+<br>
+<button onclick="spinWheel()">🎲 Испытать судьбу</button>
 
-<button onclick="play()">🎲 Испытать судьбу</button>
-
-<div id="rolling"></div>
 <div id="result"></div>
 <img id="poster">
-
 <div class="msg" id="msg"></div>
 
-<div class="small" onclick="admin()">admin</div>
+<div class="small" onclick="openAdmin()">admin</div>
 
 <div id="admin">
 <button class="adminBtn" onclick="resetAll()">Сбросить всё</button>
 <button class="adminBtn" onclick="testSpin()">Тест</button>
 </div>
-
-</div>
 </div>
 
 <script>
-
 const sheetURL="https://script.google.com/macros/s/AKfycbwnde_-a6LXALfDc5AmIgUoUb_NentvbgbHMpQ0lNNFa9jynGd9qggA8mUi58bPLmaS3Q/exec";
 
-let films = [
-{name:"Гарри Поттер",img:"https://picsum.photos/300/450?1"},
-{name:"Очень странные дела",img:"https://picsum.photos/300/450?2"},
-{name:"Шрек",img:"https://picsum.photos/300/450?3"},
-{name:"Чарли и шоколадная фабрика",img:"https://picsum.photos/300/450?4"},
-{name:"Один дома",img:"https://picsum.photos/300/450?5"},
-{name:"Титаник",img:"https://picsum.photos/300/450?6"},
-{name:"Король лев",img:"https://picsum.photos/300/450?7"},
-{name:"Ледниковый период",img:"https://picsum.photos/300/450?8"},
-{name:"Черный лебедь",img:"https://picsum.photos/300/450?9"},
-{name:"Голодные игры",img:"https://picsum.photos/300/450?10"},
-{name:"Как избежать наказание за убийство",img:"https://picsum.photos/300/450?11"},
-{name:"Пираты Карибского моря",img:"https://picsum.photos/300/450?12"},
-{name:"Очень страшное кино",img:"https://picsum.photos/300/450?13"},
-{name:"Хроники Нарнии",img:"https://picsum.photos/300/450?14"},
-{name:"Бурлеск",img:"https://picsum.photos/300/450?15"},
-{name:"5 элемент",img:"https://picsum.photos/300/450?16"},
-{name:"50 оттенков серого",img:"https://picsum.photos/300/450?17"},
-{name:"Американская история ужасов",img:"https://picsum.photos/300/450?18"},
-{name:"Алиса в стране чудес",img:"https://picsum.photos/300/450?19"},
-{name:"Сумерки",img:"https://picsum.photos/300/450?20"},
-{name:"Холодное сердце",img:"https://picsum.photos/300/450?21"}
+let wheel=document.getElementById("wheel");
+let angle=0;
+
+let films=[
+{name:"Гарри Поттер",img:"https://via.placeholder.com/300x450?text=Harry+Potter"},
+{name:"Очень странные дела",img:"https://via.placeholder.com/300x450?text=Stranger+Things"},
+{name:"Шрек",img:"https://via.placeholder.com/300x450?text=Shrek"},
+{name:"Чарли и шоколадная фабрика",img:"https://via.placeholder.com/300x450?text=Charlie"},
+{name:"Один дома",img:"https://via.placeholder.com/300x450?text=Home+Alone"},
+{name:"Титаник",img:"https://via.placeholder.com/300x450?text=Titanic"},
+{name:"Король лев",img:"https://via.placeholder.com/300x450?text=Lion+King"},
+{name:"Ледниковый период",img:"https://via.placeholder.com/300x450?text=Ice+Age"},
+{name:"Черный лебедь",img:"https://via.placeholder.com/300x450?text=Black+Swan"},
+{name:"Голодные игры",img:"https://via.placeholder.com/300x450?text=Hunger+Games"},
+{name:"Как избежать наказание за убийство",img:"https://via.placeholder.com/300x450?text=HTGAWM"},
+{name:"Пираты Карибского моря",img:"https://via.placeholder.com/300x450?text=Pirates"},
+{name:"Очень страшное кино",img:"https://via.placeholder.com/300x450?text=Scary+Movie"},
+{name:"Хроники Нарнии",img:"https://via.placeholder.com/300x450?text=Narnia"},
+{name:"Бурлеск",img:"https://via.placeholder.com/300x450?text=Burlesque"},
+{name:"5 элемент",img:"https://via.placeholder.com/300x450?text=Fifth+Element"},
+{name:"50 оттенков серого",img:"https://via.placeholder.com/300x450?text=50+Shades"},
+{name:"Американская история ужасов",img:"https://via.placeholder.com/300x450?text=AHS"},
+{name:"Алиса в стране чудес",img:"https://via.placeholder.com/300x450?text=Alice"},
+{name:"Сумерки",img:"https://via.placeholder.com/300x450?text=Twilight"},
+{name:"Холодное сердце",img:"https://via.placeholder.com/300x450?text=Frozen"}
 ];
 
-function norm(v){ return v.trim().toLowerCase(); }
+function norm(v){return v.trim().toLowerCase();}
 
-function play(){
+function spinWheel(){
 
 clearUI();
 
 let name=document.getElementById("name").value.trim();
-
-if(!name){
-msg("Введите имя");
-return;
-}
+if(!name){msg("Введите имя");return;}
 
 let players=JSON.parse(localStorage.getItem("players"))||{};
 let used=JSON.parse(localStorage.getItem("used"))||[];
-
 let key=norm(name);
 
 if(players[key]){
@@ -191,46 +233,34 @@ return;
 }
 
 let available=films.filter(f=>!used.includes(f.name));
-
 if(available.length===0){
 msg("Все фильмы разобраны 🎬");
 return;
 }
 
-spin(()=>{
 let chosen=available[Math.floor(Math.random()*available.length)];
 
+let index=films.findIndex(f=>f.name===chosen.name);
+let sector=360/films.length;
+let stopAngle=(360-(index*sector)-sector/2);
+let extra=360*6;
+
+angle+=extra+stopAngle;
+wheel.style.transform="rotate("+angle+"deg)";
+
+setTimeout(()=>{
 players[key]=chosen.name;
 used.push(chosen.name);
-
 localStorage.setItem("players",JSON.stringify(players));
 localStorage.setItem("used",JSON.stringify(used));
 
-show(chosen);
-
+showResult(chosen);
 saveToSheet(name,chosen.name);
-});
+},5200);
 
 }
 
-function spin(done){
-
-let roll=document.getElementById("rolling");
-let c=0;
-
-let t=setInterval(()=>{
-roll.innerHTML=films[Math.floor(Math.random()*films.length)].name;
-c++;
-if(c>18){
-clearInterval(t);
-roll.innerHTML="";
-done();
-}
-},140);
-
-}
-
-function show(f){
+function showResult(f){
 document.getElementById("result").innerHTML="🎉<br>"+f.name;
 let p=document.getElementById("poster");
 p.src=f.img;
@@ -244,21 +274,17 @@ document.getElementById("msg").innerHTML=t;
 function clearUI(){
 document.getElementById("msg").innerHTML="";
 document.getElementById("result").innerHTML="";
-document.getElementById("rolling").innerHTML="";
 document.getElementById("poster").style.display="none";
 }
 
 function saveToSheet(name,film){
 fetch(sheetURL,{
 method:"POST",
-body:JSON.stringify({
-name:name,
-film:film
-})
+body:JSON.stringify({name:name,film:film})
 });
 }
 
-function admin(){
+function openAdmin(){
 let pass=prompt("Пароль:");
 if(pass==="Daria2026"){
 document.getElementById("admin").style.display="block";
@@ -266,7 +292,7 @@ document.getElementById("admin").style.display="block";
 }
 
 function resetAll(){
-if(confirm("Сбросить всё?")){
+if(confirm("Очистить результаты?")){
 localStorage.removeItem("players");
 localStorage.removeItem("used");
 alert("Готово");
@@ -275,11 +301,9 @@ alert("Готово");
 
 function testSpin(){
 clearUI();
-spin(()=>{
-msg("Тест завершён");
-});
+angle+=360*5+Math.random()*360;
+wheel.style.transform="rotate("+angle+"deg)";
 }
-
 </script>
 </body>
 </html>
