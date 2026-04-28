@@ -190,28 +190,28 @@ const sheetURL="https://script.google.com/macros/s/AKfycbwnde_-a6LXALfDc5AmIgUoU
 let wheel=document.getElementById("wheel");
 let angle=0;
 
-let films=[
-{name:"Гарри Поттер",img:"https://via.placeholder.com/300x450?text=Harry+Potter"},
-{name:"Очень странные дела",img:"https://via.placeholder.com/300x450?text=Stranger+Things"},
-{name:"Шрек",img:"https://via.placeholder.com/300x450?text=Shrek"},
-{name:"Чарли и шоколадная фабрика",img:"https://via.placeholder.com/300x450?text=Charlie"},
-{name:"Один дома",img:"https://via.placeholder.com/300x450?text=Home+Alone"},
-{name:"Титаник",img:"https://via.placeholder.com/300x450?text=Titanic"},
-{name:"Король лев",img:"https://via.placeholder.com/300x450?text=Lion+King"},
-{name:"Ледниковый период",img:"https://via.placeholder.com/300x450?text=Ice+Age"},
-{name:"Черный лебедь",img:"https://via.placeholder.com/300x450?text=Black+Swan"},
-{name:"Голодные игры",img:"https://via.placeholder.com/300x450?text=Hunger+Games"},
-{name:"Как избежать наказание за убийство",img:"https://via.placeholder.com/300x450?text=HTGAWM"},
-{name:"Пираты Карибского моря",img:"https://via.placeholder.com/300x450?text=Pirates"},
-{name:"Очень страшное кино",img:"https://via.placeholder.com/300x450?text=Scary+Movie"},
-{name:"Хроники Нарнии",img:"https://via.placeholder.com/300x450?text=Narnia"},
-{name:"Бурлеск",img:"https://via.placeholder.com/300x450?text=Burlesque"},
-{name:"5 элемент",img:"https://via.placeholder.com/300x450?text=Fifth+Element"},
-{name:"50 оттенков серого",img:"https://via.placeholder.com/300x450?text=50+Shades"},
-{name:"Американская история ужасов",img:"https://via.placeholder.com/300x450?text=AHS"},
-{name:"Алиса в стране чудес",img:"https://via.placeholder.com/300x450?text=Alice"},
-{name:"Сумерки",img:"https://via.placeholder.com/300x450?text=Twilight"},
-{name:"Холодное сердце",img:"https://via.placeholder.com/300x450?text=Frozen"}
+let films = [
+{name:"Гарри Поттер",img:"https://m.media-amazon.com/images/I/81iqZ2HHD-L._AC_SY679_.jpg"},
+{name:"Очень странные дела",img:"https://m.media-amazon.com/images/I/81q4p0R5YSL._AC_SY679_.jpg"},
+{name:"Шрек",img:"https://m.media-amazon.com/images/I/71HPEOoQf-L._AC_SY679_.jpg"},
+{name:"Чарли и шоколадная фабрика",img:"https://m.media-amazon.com/images/I/71K0g6Qk4L._AC_SY679_.jpg"},
+{name:"Один дома",img:"https://m.media-amazon.com/images/I/81w+7G8Jb-L._AC_SY679_.jpg"},
+{name:"Титаник",img:"https://m.media-amazon.com/images/I/71U6Y4M0k-L._AC_SY679_.jpg"},
+{name:"Король лев",img:"https://m.media-amazon.com/images/I/81D3jJ0l0-L._AC_SY679_.jpg"},
+{name:"Ледниковый период",img:"https://m.media-amazon.com/images/I/81i4C2WzjSL._AC_SY679_.jpg"},
+{name:"Черный лебедь",img:"https://m.media-amazon.com/images/I/71mNQ9Dk0XL._AC_SY679_.jpg"},
+{name:"Голодные игры",img:"https://m.media-amazon.com/images/I/81L6N0g8hXL._AC_SY679_.jpg"},
+{name:"Как избежать наказание за убийство",img:"https://m.media-amazon.com/images/I/81YwY0V4M7L._AC_SY679_.jpg"},
+{name:"Пираты Карибского моря",img:"https://m.media-amazon.com/images/I/81d6V4Z0HnL._AC_SY679_.jpg"},
+{name:"Очень страшное кино",img:"https://m.media-amazon.com/images/I/71W7f0M7MPL._AC_SY679_.jpg"},
+{name:"Хроники Нарнии",img:"https://m.media-amazon.com/images/I/81f6u0m2XUL._AC_SY679_.jpg"},
+{name:"Бурлеск",img:"https://m.media-amazon.com/images/I/71wN7rR1M7L._AC_SY679_.jpg"},
+{name:"5 элемент",img:"https://m.media-amazon.com/images/I/71M7J4d0MJL._AC_SY679_.jpg"},
+{name:"50 оттенков серого",img:"https://m.media-amazon.com/images/I/81A6M0RkW-L._AC_SY679_.jpg"},
+{name:"Американская история ужасов",img:"https://m.media-amazon.com/images/I/81W2nQY4BzL._AC_SY679_.jpg"},
+{name:"Алиса в стране чудес",img:"https://m.media-amazon.com/images/I/81fB6QXzvJL._AC_SY679_.jpg"},
+{name:"Сумерки",img:"https://m.media-amazon.com/images/I/71wV6L2K2SL._AC_SY679_.jpg"},
+{name:"Холодное сердце",img:"https://m.media-amazon.com/images/I/81Kz06X9WwL._AC_SY679_.jpg"}
 ];
 
 function norm(v){return v.trim().toLowerCase();}
