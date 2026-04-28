@@ -9,7 +9,7 @@
 body{
 margin:0;
 font-family:Arial,sans-serif;
-background:radial-gradient(circle at top,#5a0000,#220000,#120000);
+background:radial-gradient(circle at top,#5e0000,#220000,#100000);
 color:white;
 text-align:center;
 min-height:100vh;
@@ -26,14 +26,15 @@ text-shadow:0 0 15px rgba(255,215,0,.45);
 
 .sub{
 opacity:.85;
-margin-bottom:18px;
+margin-bottom:14px;
 }
 
 #wheelWrap{
 position:relative;
 width:340px;
 height:340px;
-margin:20px auto;
+margin:18px auto;
+transition:.8s;
 }
 
 #wheel{
@@ -41,32 +42,17 @@ width:100%;
 height:100%;
 border-radius:50%;
 border:8px solid #d4af37;
-box-shadow:0 0 25px rgba(255,215,0,.25);
+box-shadow:0 0 28px rgba(255,215,0,.25);
 transition:transform 5s cubic-bezier(.15,.8,.2,1);
 background:
 conic-gradient(
-#7a0000 0deg 17deg,
-#b30000 17deg 34deg,
-#6d0000 34deg 51deg,
-#8f0000 51deg 68deg,
-#5c0000 68deg 85deg,
-#9a0000 85deg 102deg,
-#700000 102deg 119deg,
-#b80000 119deg 136deg,
-#6a0000 136deg 153deg,
-#960000 153deg 170deg,
-#7a0000 170deg 187deg,
-#b30000 187deg 204deg,
-#6d0000 204deg 221deg,
-#8f0000 221deg 238deg,
-#5c0000 238deg 255deg,
-#9a0000 255deg 272deg,
-#700000 272deg 289deg,
-#b80000 289deg 306deg,
-#6a0000 306deg 323deg,
-#960000 323deg 340deg,
-#7a0000 340deg 360deg
-);
+#7a0000 0deg 17deg,#b30000 17deg 34deg,#6d0000 34deg 51deg,
+#8f0000 51deg 68deg,#5c0000 68deg 85deg,#9a0000 85deg 102deg,
+#700000 102deg 119deg,#b80000 119deg 136deg,#6a0000 136deg 153deg,
+#960000 153deg 170deg,#7a0000 170deg 187deg,#b30000 187deg 204deg,
+#6d0000 204deg 221deg,#8f0000 221deg 238deg,#5c0000 238deg 255deg,
+#9a0000 255deg 272deg,#700000 272deg 289deg,#b80000 289deg 306deg,
+#6a0000 306deg 323deg,#960000 323deg 340deg,#7a0000 340deg 360deg);
 }
 
 #pointer{
@@ -76,11 +62,10 @@ left:50%;
 transform:translateX(-50%);
 font-size:34px;
 color:#ffd700;
-text-shadow:0 0 12px gold;
 }
 
 .panel{
-max-width:420px;
+max-width:430px;
 margin:auto;
 background:rgba(255,255,255,.06);
 padding:22px;
@@ -95,11 +80,11 @@ font-size:18px;
 border:none;
 border-radius:12px;
 text-align:center;
-margin-bottom:15px;
+margin-bottom:14px;
 }
 
 button{
-padding:16px 28px;
+padding:15px 28px;
 font-size:22px;
 border:none;
 border-radius:14px;
@@ -108,29 +93,30 @@ font-weight:bold;
 background:linear-gradient(90deg,#d4af37,#ffd700);
 }
 
-button:hover{transform:scale(1.03);}
-
-#result{
-margin-top:22px;
-font-size:34px;
-font-weight:bold;
-line-height:1.25;
+#resultBox{
+display:none;
+margin-top:20px;
+animation:fade .8s ease;
 }
 
 #poster{
-display:none;
-margin-top:18px;
-max-width:260px;
+max-width:280px;
 width:92%;
 border-radius:18px;
-box-shadow:0 0 25px rgba(0,0,0,.55);
-animation:fade .8s ease;
+box-shadow:0 0 30px rgba(0,0,0,.6);
+}
+
+#filmName{
+font-size:34px;
+font-weight:bold;
+margin-top:16px;
+line-height:1.2;
 }
 
 .msg{
 margin-top:16px;
 font-size:20px;
-color:#ffd2d2;
+color:#ffd1d1;
 }
 
 .small{
@@ -147,12 +133,19 @@ margin-top:12px;
 
 .adminBtn{
 margin:5px;
-padding:9px 14px;
+padding:8px 14px;
 font-size:14px;
 }
 
+.mute{
+margin-top:10px;
+font-size:14px;
+cursor:pointer;
+opacity:.8;
+}
+
 @keyframes fade{
-from{opacity:0;transform:scale(.8);}
+from{opacity:0;transform:scale(.85);}
 to{opacity:1;transform:scale(1);}
 }
 </style>
@@ -160,7 +153,7 @@ to{opacity:1;transform:scale(1);}
 <body>
 
 <h1>🎬 Daria Birthday Cinema</h1>
-<div class="sub">Luxury Wheel Edition</div>
+<div class="sub">Luxury Full Final Edition</div>
 
 <div id="wheelWrap">
 <div id="pointer">▼</div>
@@ -168,55 +161,68 @@ to{opacity:1;transform:scale(1);}
 </div>
 
 <div class="panel">
-<input id="name" placeholder="Введите своё имя">
-<br>
-<button onclick="spinWheel()">🎲 Испытать судьбу</button>
 
-<div id="result"></div>
+<input id="name" placeholder="Введите своё имя">
+
+<button onclick="play()">🎲 Испытать судьбу</button>
+
+<div class="mute" onclick="toggleMute()">🔊 звук</div>
+
+<div id="resultBox">
 <img id="poster">
+<div id="filmName"></div>
+</div>
+
 <div class="msg" id="msg"></div>
 
-<div class="small" onclick="openAdmin()">admin</div>
+<div class="small" onclick="admin()">admin</div>
 
 <div id="admin">
 <button class="adminBtn" onclick="resetAll()">Сбросить всё</button>
 <button class="adminBtn" onclick="testSpin()">Тест</button>
 </div>
+
 </div>
+
+<audio id="music" loop src="audio/music.mp3"></audio>
+<audio id="spinSound" src="audio/spin.mp3"></audio>
+<audio id="winSound" src="audio/win.mp3"></audio>
 
 <script>
 const sheetURL="https://script.google.com/macros/s/AKfycbwnde_-a6LXALfDc5AmIgUoUb_NentvbgbHMpQ0lNNFa9jynGd9qggA8mUi58bPLmaS3Q/exec";
 
+let muted=false;
 let wheel=document.getElementById("wheel");
+let wheelWrap=document.getElementById("wheelWrap");
 let angle=0;
 
-let films = [
-{name:"Гарри Поттер",img:"https://m.media-amazon.com/images/I/81iqZ2HHD-L._AC_SY679_.jpg"},
-{name:"Очень странные дела",img:"https://m.media-amazon.com/images/I/81q4p0R5YSL._AC_SY679_.jpg"},
-{name:"Шрек",img:"https://m.media-amazon.com/images/I/71HPEOoQf-L._AC_SY679_.jpg"},
-{name:"Чарли и шоколадная фабрика",img:"https://m.media-amazon.com/images/I/71K0g6Qk4L._AC_SY679_.jpg"},
-{name:"Один дома",img:"https://m.media-amazon.com/images/I/81w+7G8Jb-L._AC_SY679_.jpg"},
-{name:"Титаник",img:"https://m.media-amazon.com/images/I/71U6Y4M0k-L._AC_SY679_.jpg"},
-{name:"Король лев",img:"https://m.media-amazon.com/images/I/81D3jJ0l0-L._AC_SY679_.jpg"},
-{name:"Ледниковый период",img:"https://m.media-amazon.com/images/I/81i4C2WzjSL._AC_SY679_.jpg"},
-{name:"Черный лебедь",img:"https://m.media-amazon.com/images/I/71mNQ9Dk0XL._AC_SY679_.jpg"},
-{name:"Голодные игры",img:"https://m.media-amazon.com/images/I/81L6N0g8hXL._AC_SY679_.jpg"},
-{name:"Как избежать наказание за убийство",img:"https://m.media-amazon.com/images/I/81YwY0V4M7L._AC_SY679_.jpg"},
-{name:"Пираты Карибского моря",img:"https://m.media-amazon.com/images/I/81d6V4Z0HnL._AC_SY679_.jpg"},
-{name:"Очень страшное кино",img:"https://m.media-amazon.com/images/I/71W7f0M7MPL._AC_SY679_.jpg"},
-{name:"Хроники Нарнии",img:"https://m.media-amazon.com/images/I/81f6u0m2XUL._AC_SY679_.jpg"},
-{name:"Бурлеск",img:"https://m.media-amazon.com/images/I/71wN7rR1M7L._AC_SY679_.jpg"},
-{name:"5 элемент",img:"https://m.media-amazon.com/images/I/71M7J4d0MJL._AC_SY679_.jpg"},
-{name:"50 оттенков серого",img:"https://m.media-amazon.com/images/I/81A6M0RkW-L._AC_SY679_.jpg"},
-{name:"Американская история ужасов",img:"https://m.media-amazon.com/images/I/81W2nQY4BzL._AC_SY679_.jpg"},
-{name:"Алиса в стране чудес",img:"https://m.media-amazon.com/images/I/81fB6QXzvJL._AC_SY679_.jpg"},
-{name:"Сумерки",img:"https://m.media-amazon.com/images/I/71wV6L2K2SL._AC_SY679_.jpg"},
-{name:"Холодное сердце",img:"https://m.media-amazon.com/images/I/81Kz06X9WwL._AC_SY679_.jpg"}
+let films=[
+{name:"Гарри Поттер",img:"images/harry.jpg"},
+{name:"Очень странные дела",img:"images/stranger.jpg"},
+{name:"Шрек",img:"images/shrek.jpg"},
+{name:"Чарли и шоколадная фабрика",img:"images/charlie.jpg"},
+{name:"Один дома",img:"images/homealone.jpg"},
+{name:"Титаник",img:"images/titanic.jpg"},
+{name:"Король лев",img:"images/lionking.jpg"},
+{name:"Ледниковый период",img:"images/iceage.jpg"},
+{name:"Черный лебедь",img:"images/blackswan.jpg"},
+{name:"Голодные игры",img:"images/hungergames.jpg"},
+{name:"Как избежать наказание за убийство",img:"images/murder.jpg"},
+{name:"Пираты Карибского моря",img:"images/pirates.jpg"},
+{name:"Очень страшное кино",img:"images/scarymovie.jpg"},
+{name:"Хроники Нарнии",img:"images/narnia.jpg"},
+{name:"Бурлеск",img:"images/burlesque.jpg"},
+{name:"5 элемент",img:"images/fifthelement.jpg"},
+{name:"50 оттенков серого",img:"images/shades.jpg"},
+{name:"Американская история ужасов",img:"images/ahs.jpg"},
+{name:"Алиса в стране чудес",img:"images/alice.jpg"},
+{name:"Сумерки",img:"images/twilight.jpg"},
+{name:"Холодное сердце",img:"images/frozen.jpg"}
 ];
 
 function norm(v){return v.trim().toLowerCase();}
 
-function spinWheel(){
+function play(){
 
 clearUI();
 
@@ -233,6 +239,7 @@ return;
 }
 
 let available=films.filter(f=>!used.includes(f.name));
+
 if(available.length===0){
 msg("Все фильмы разобраны 🎬");
 return;
@@ -240,41 +247,45 @@ return;
 
 let chosen=available[Math.floor(Math.random()*available.length)];
 
+startMusic();
+playSound("spinSound");
+
 let index=films.findIndex(f=>f.name===chosen.name);
 let sector=360/films.length;
-let stopAngle=(360-(index*sector)-sector/2);
-let extra=360*6;
+let stop=360-(index*sector)-sector/2;
 
-angle+=extra+stopAngle;
+angle += 360*6 + stop;
 wheel.style.transform="rotate("+angle+"deg)";
 
 setTimeout(()=>{
+document.getElementById("spinSound").pause();
+document.getElementById("spinSound").currentTime=0;
+playSound("winSound");
+
 players[key]=chosen.name;
 used.push(chosen.name);
+
 localStorage.setItem("players",JSON.stringify(players));
 localStorage.setItem("used",JSON.stringify(used));
 
+wheelWrap.style.opacity="0";
+wheelWrap.style.transform="scale(.7)";
+
+setTimeout(()=>{
+wheelWrap.style.display="none";
 showResult(chosen);
+},700);
+
 saveToSheet(name,chosen.name);
+
 },5200);
 
 }
 
 function showResult(f){
-document.getElementById("result").innerHTML="🎉<br>"+f.name;
-let p=document.getElementById("poster");
-p.src=f.img;
-p.style.display="inline-block";
-}
-
-function msg(t){
-document.getElementById("msg").innerHTML=t;
-}
-
-function clearUI(){
-document.getElementById("msg").innerHTML="";
-document.getElementById("result").innerHTML="";
-document.getElementById("poster").style.display="none";
+document.getElementById("resultBox").style.display="block";
+document.getElementById("poster").src=f.img;
+document.getElementById("filmName").innerHTML="🎉<br>"+f.name;
 }
 
 function saveToSheet(name,film){
@@ -284,7 +295,32 @@ body:JSON.stringify({name:name,film:film})
 });
 }
 
-function openAdmin(){
+function msg(t){
+document.getElementById("msg").innerHTML=t;
+}
+
+function clearUI(){
+document.getElementById("msg").innerHTML="";
+document.getElementById("resultBox").style.display="none";
+}
+
+function toggleMute(){
+muted=!muted;
+document.getElementById("music").muted=muted;
+document.getElementById("spinSound").muted=muted;
+document.getElementById("winSound").muted=muted;
+}
+
+function startMusic(){
+let m=document.getElementById("music");
+m.play().catch(()=>{});
+}
+
+function playSound(id){
+document.getElementById(id).play().catch(()=>{});
+}
+
+function admin(){
 let pass=prompt("Пароль:");
 if(pass==="Daria2026"){
 document.getElementById("admin").style.display="block";
@@ -292,15 +328,14 @@ document.getElementById("admin").style.display="block";
 }
 
 function resetAll(){
-if(confirm("Очистить результаты?")){
+if(confirm("Очистить всё?")){
 localStorage.removeItem("players");
 localStorage.removeItem("used");
-alert("Готово");
+location.reload();
 }
 }
 
 function testSpin(){
-clearUI();
 angle+=360*5+Math.random()*360;
 wheel.style.transform="rotate("+angle+"deg)";
 }
