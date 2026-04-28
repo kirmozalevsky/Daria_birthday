@@ -3,140 +3,274 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Movie Party</title>
+<title>Daria Birthday Cinema</title>
 
 <style>
 body{
 margin:0;
 font-family:Arial, sans-serif;
-background:linear-gradient(to bottom,#111,#300);
+background:linear-gradient(180deg,#220000,#3b0000,#120000);
 color:white;
 text-align:center;
-padding-top:80px;
-overflow:hidden;
+min-height:100vh;
+padding:30px;
 }
 
 h1{
 font-size:42px;
+color:#ffd700;
 margin-bottom:10px;
+text-shadow:0 0 12px rgba(255,215,0,0.4);
 }
 
-p{
-opacity:0.8;
+.subtitle{
+opacity:.85;
+margin-bottom:30px;
+}
+
+.card{
+max-width:420px;
+margin:auto;
+background:rgba(255,255,255,.06);
+padding:25px;
+border-radius:20px;
+box-shadow:0 0 25px rgba(0,0,0,.4);
+backdrop-filter:blur(6px);
+}
+
+input{
+width:90%;
+padding:15px;
+font-size:18px;
+border:none;
+border-radius:12px;
+margin-bottom:18px;
+text-align:center;
 }
 
 button{
-margin-top:30px;
-padding:18px 40px;
-font-size:24px;
+padding:16px 34px;
+font-size:22px;
 border:none;
-border-radius:15px;
-background:gold;
-cursor:pointer;
+border-radius:14px;
+background:linear-gradient(90deg,#d4af37,#ffd700);
 font-weight:bold;
-box-shadow:0 0 20px gold;
+cursor:pointer;
+box-shadow:0 0 18px rgba(255,215,0,.45);
 }
 
-button:hover{
-transform:scale(1.05);
+button:hover{transform:scale(1.03);}
+
+#rolling{
+margin-top:28px;
+font-size:26px;
+min-height:40px;
+opacity:.9;
 }
 
 #result{
-margin-top:50px;
-font-size:40px;
+margin-top:25px;
+font-size:34px;
 font-weight:bold;
-min-height:120px;
-animation:fade 1s ease;
+line-height:1.3;
 }
 
-@keyframes fade{
-from{opacity:0; transform:scale(0.7);}
-to{opacity:1; transform:scale(1);}
+#poster{
+margin-top:20px;
+max-width:260px;
+width:90%;
+border-radius:18px;
+box-shadow:0 0 25px rgba(0,0,0,.5);
+display:none;
 }
 
-.confetti{
-position:fixed;
-width:10px;
-height:10px;
-top:-10px;
-animation:fall 3s linear forwards;
+.small{
+margin-top:18px;
+font-size:13px;
+opacity:.65;
+cursor:pointer;
 }
 
-@keyframes fall{
-to{
-transform:translateY(110vh) rotate(720deg);
-opacity:0;
+#adminPanel{
+display:none;
+margin-top:20px;
 }
+
+.adminBtn{
+margin:6px;
+font-size:15px;
+padding:10px 18px;
 }
+
+.msg{
+margin-top:20px;
+font-size:20px;
+color:#ffd7d7;
+}
+
 </style>
 </head>
-
 <body>
 
-<h1>🎬 Movie Party</h1>
-<p>Нажми и узнай свой фильм</p>
+<h1>🎬 Daria Birthday Cinema</h1>
+<div class="subtitle">Luxury Movie Night</div>
 
-<button onclick="pickFilm()">🎲 Получить фильм</button>
+<div class="card">
 
+<input id="nameInput" placeholder="Введите своё имя">
+
+<br>
+
+<button onclick="startGame()">🎲 Испытать судьбу</button>
+
+<div id="rolling"></div>
 <div id="result"></div>
+<img id="poster">
+
+<div class="msg" id="msg"></div>
+
+<div class="small" onclick="toggleAdmin()">admin</div>
+
+<div id="adminPanel">
+<button class="adminBtn" onclick="resetAll()">Сбросить всё</button>
+<button class="adminBtn" onclick="testMode()">Тест прокрутки</button>
+</div>
+
+</div>
 
 <script>
+
 let films = [
-"Матрица",
-"Шрек",
-"Барби",
-"Гарри Поттер",
-"Аватар",
-"Титаник",
-"Джокер",
-"Пираты Карибского моря",
-"Звёздные войны"
+{name:"Гарри Поттер",img:"https://m.media-amazon.com/images/I/81iqZ2HHD-L.jpg"},
+{name:"Очень странные дела",img:"https://m.media-amazon.com/images/I/81q4p0R5YSL.jpg"},
+{name:"Шрек",img:"https://m.media-amazon.com/images/I/71HPEOoQf-L.jpg"},
+{name:"Чарли и шоколадная фабрика",img:"https://m.media-amazon.com/images/I/71K0g6+Qk4L.jpg"},
+{name:"Один дома",img:"https://m.media-amazon.com/images/I/81w+7G8Jb-L.jpg"},
+{name:"Титаник",img:"https://m.media-amazon.com/images/I/71U6Y4M0k-L.jpg"},
+{name:"Король лев",img:"https://m.media-amazon.com/images/I/81D3jJ0l0-L.jpg"},
+{name:"Ледниковый период",img:"https://m.media-amazon.com/images/I/81i4C2WzjSL.jpg"},
+{name:"Черный лебедь",img:"https://m.media-amazon.com/images/I/71mNQ9Dk0XL.jpg"},
+{name:"Голодные игры",img:"https://m.media-amazon.com/images/I/81L6N0g8hXL.jpg"},
+{name:"Как избежать наказание за убийство",img:"https://m.media-amazon.com/images/I/81YwY0V4M7L.jpg"},
+{name:"Пираты Карибского моря",img:"https://m.media-amazon.com/images/I/81d6V4Z0HnL.jpg"},
+{name:"Очень страшное кино",img:"https://m.media-amazon.com/images/I/71W7f0M7MPL.jpg"},
+{name:"Хроники Нарнии",img:"https://m.media-amazon.com/images/I/81f6u0m2XUL.jpg"},
+{name:"Бурлеск",img:"https://m.media-amazon.com/images/I/71wN7rR1M7L.jpg"},
+{name:"5 элемент",img:"https://m.media-amazon.com/images/I/71M7J4d0MJL.jpg"},
+{name:"50 оттенков серого",img:"https://m.media-amazon.com/images/I/81A6M0RkW-L.jpg"},
+{name:"Американская история ужасов",img:"https://m.media-amazon.com/images/I/81W2nQY4BzL.jpg"},
+{name:"Алиса в стране чудес",img:"https://m.media-amazon.com/images/I/81fB6QXzvJL.jpg"},
+{name:"Сумерки",img:"https://m.media-amazon.com/images/I/71wV6L2K2SL.jpg"},
+{name:"Холодное сердце",img:"https://m.media-amazon.com/images/I/81Kz06X9WwL.jpg"}
 ];
 
-function pickFilm(){
+function normalize(name){
+return name.trim().toLowerCase();
+}
 
-let used = JSON.parse(localStorage.getItem("usedFilms")) || [];
-let available = films.filter(f => !used.includes(f));
+function startGame(){
 
-if(available.length===0){
-document.getElementById("result").innerHTML="😎 Все фильмы разобраны";
+let name = document.getElementById("nameInput").value.trim();
+
+clearView();
+
+if(name==""){
+showMsg("Введите имя");
 return;
 }
 
-let result = document.getElementById("result");
+let players = JSON.parse(localStorage.getItem("players")) || {};
+let used = JSON.parse(localStorage.getItem("usedFilms")) || [];
 
-let count = 0;
+let key = normalize(name);
 
-let roll = setInterval(()=>{
-result.innerHTML = films[Math.floor(Math.random()*films.length)];
-count++;
-if(count>15){
-clearInterval(roll);
-
-let film = available[Math.floor(Math.random()*available.length)];
-used.push(film);
-localStorage.setItem("usedFilms", JSON.stringify(used));
-
-result.innerHTML = "🎉<br>"+film;
-confetti();
-}
-},150);
-
+if(players[key]){
+showMsg("⚠️ По этому имени фильм уже выбран.");
+return;
 }
 
-function confetti(){
-for(let i=0;i<40;i++){
-let c = document.createElement("div");
-c.className="confetti";
-c.style.left=Math.random()*100+"vw";
-c.style.background="hsl("+Math.random()*360+",100%,50%)";
-c.style.animationDuration=(2+Math.random()*2)+"s";
-document.body.appendChild(c);
+let available = films.filter(f=>!used.includes(f.name));
 
-setTimeout(()=>c.remove(),4000);
+if(available.length==0){
+showMsg("Все фильмы разобраны 🎬");
+return;
+}
+
+rollAnimation(()=>{
+let chosen = available[Math.floor(Math.random()*available.length)];
+
+players[key]=chosen.name;
+used.push(chosen.name);
+
+localStorage.setItem("players",JSON.stringify(players));
+localStorage.setItem("usedFilms",JSON.stringify(used));
+
+showResult(chosen);
+});
+
+}
+
+function rollAnimation(callback){
+
+let rolling = document.getElementById("rolling");
+let i=0;
+
+let timer = setInterval(()=>{
+rolling.innerHTML = films[Math.floor(Math.random()*films.length)].name;
+i++;
+if(i>18){
+clearInterval(timer);
+rolling.innerHTML="";
+callback();
+}
+},140);
+
+}
+
+function showResult(chosen){
+
+document.getElementById("result").innerHTML="🎉<br>"+chosen.name;
+
+let poster = document.getElementById("poster");
+poster.src = chosen.img;
+poster.style.display="inline-block";
+
+}
+
+function showMsg(text){
+document.getElementById("msg").innerHTML=text;
+}
+
+function clearView(){
+document.getElementById("msg").innerHTML="";
+document.getElementById("result").innerHTML="";
+document.getElementById("poster").style.display="none";
+document.getElementById("rolling").innerHTML="";
+}
+
+function toggleAdmin(){
+let pass = prompt("Пароль:");
+if(pass==="Daria2026"){
+let p = document.getElementById("adminPanel");
+p.style.display = p.style.display==="block" ? "none":"block";
 }
 }
+
+function resetAll(){
+if(confirm("Очистить результаты?")){
+localStorage.removeItem("players");
+localStorage.removeItem("usedFilms");
+alert("Готово");
+}
+}
+
+function testMode(){
+clearView();
+rollAnimation(()=>{
+showMsg("Тест завершён (ничего не сохранено)");
+});
+}
+
 </script>
-
 </body>
 </html>
