@@ -178,31 +178,34 @@ filter:brightness(1.06);
 
 #resultBox{
 display:none;
-margin-top:26px;
+margin-top:10px;
 position:relative;
 z-index:50;
 opacity:0;
-transform:translateY(35px) scale(.88);
-transition:all .9s ease;
+transform:translateY(20px) scale(.94);
+transition:all .8s ease;
 }
 
 #poster{
-max-width:300px;
-width:92%;
+max-width:220px;
+width:68vw;
+max-height:52vh;
+object-fit:cover;
 border-radius:20px;
 box-shadow:
 0 20px 45px rgba(0,0,0,.55),
 0 0 18px rgba(255,215,0,.12);
 display:block;
 margin:auto;
+animation:posterFloat 4s ease-in-out infinite;
 }
 
 #filmName{
 font-family:'Cinzel', serif;
-font-size:36px;
+font-size:30px;
 font-weight:700;
-margin-top:18px;
-line-height:1.25;
+margin-bottom:14px;
+line-height:1.2;
 color:#ffe7a0;
 letter-spacing:1px;
 text-shadow:
@@ -284,6 +287,15 @@ animation:flashReveal .9s ease-out;
 z-index:999;
 }
 
+@keyframes posterFloat{
+0%,100%{
+transform:translateY(0) scale(1);
+}
+50%{
+transform:translateY(-6px) scale(1.02);
+}
+}
+
 @keyframes flashReveal{
 0%{opacity:0;}
 15%{opacity:1;}
@@ -312,11 +324,11 @@ to{opacity:1;transform:scale(1);}
 
 <div class="panel">
 
-<input id="name" placeholder="Введите своё имя">
+<input id="name" class="uiItem" placeholder="Введите своё имя">
 
-<button onclick="play()">🎲 Испытать судьбу</button>
+<button onclick="play()" class="uiItem">🎲 Испытать судьбу</button>
 
-<div class="mute" onclick="toggleMute()">🔊 звук</div>
+<div class="mute uiItem" onclick="toggleMute()">🔊 звук</div>
 
 <div id="resultBox">
 <img id="poster">
@@ -440,12 +452,16 @@ document.body.appendChild(flash);
 
 setTimeout(()=>flash.remove(),900);
 
+document.querySelectorAll(".uiItem").forEach(el=>{
+el.style.display="none";
+});
+
 let box=document.getElementById("resultBox");
 let poster=document.getElementById("poster");
 let title=document.getElementById("filmName");
 
 poster.src=f.img;
-title.innerHTML="🎬 Твоя судьба на вечер:<br>"+f.name;
+title.innerHTML="🎬 "+f.name;
 
 box.style.display="block";
 
@@ -457,7 +473,7 @@ box.style.transform="translateY(0) scale(1)";
 setTimeout(()=>{
 title.style.opacity="1";
 title.style.transform="translateY(0)";
-},650);
+},500);
 
 }
 
