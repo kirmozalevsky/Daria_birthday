@@ -197,7 +197,9 @@ box-shadow:
 0 0 18px rgba(255,215,0,.12);
 display:block;
 margin:auto;
-animation:posterFloat 4s ease-in-out infinite;
+animation:
+posterFloat 4s ease-in-out infinite,
+posterGlow 3s ease-in-out infinite;
 }
 
 #filmName{
@@ -301,6 +303,19 @@ transform:translateY(-6px) scale(1.02);
 15%{opacity:1;}
 55%{opacity:.7;}
 100%{opacity:0;}
+}
+
+@keyframes posterGlow{
+0%,100%{
+box-shadow:
+0 20px 45px rgba(0,0,0,.55),
+0 0 10px rgba(255,215,0,.08);
+}
+50%{
+box-shadow:
+0 20px 45px rgba(0,0,0,.55),
+0 0 24px rgba(255,215,0,.22);
+}
 }
 
 @keyframes fade{
