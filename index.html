@@ -13,12 +13,41 @@
 body{
 margin:0;
 font-family:'Playfair Display', serif;
-background:radial-gradient(circle at top,#5e0000,#220000,#100000);
+background:
+radial-gradient(circle at top, #5c0000 0%, #2a0000 35%, #140000 100%);
 color:white;
 text-align:center;
 min-height:100vh;
 padding:20px;
+position:relative;
 overflow-x:hidden;
+}
+
+.particles{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+pointer-events:none;
+z-index:0;
+background-image:
+radial-gradient(circle, rgba(255,215,0,.20) 1px, transparent 1px),
+radial-gradient(circle, rgba(255,215,0,.12) 1px, transparent 1px);
+background-size:120px 120px, 180px 180px;
+background-position:0 0, 60px 60px;
+animation:floatDust 18s linear infinite;
+opacity:.35;
+}
+
+@keyframes floatDust{
+0%{transform:translateY(0);}
+100%{transform:translateY(-40px);}
+}
+
+body > *:not(.particles){
+position:relative;
+z-index:2;
 }
 
 h1{
@@ -203,6 +232,7 @@ to{opacity:1;transform:scale(1);}
 </style>
 </head>
 <body>
+<div class="particles"></div>
 
 <h1>🎬 Daria Birthday Cinema</h1>
 <div class="sub">Luxury Full Final Edition</div>
