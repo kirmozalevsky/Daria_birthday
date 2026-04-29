@@ -179,32 +179,36 @@ filter:brightness(1.06);
 
 #resultBox{
 display:none;
-margin-top:20px;
-animation:fade .8s ease;
+margin-top:26px;
 position:relative;
 z-index:50;
+opacity:0;
+transform:translateY(30px) scale(.92);
+transition:all .9s ease;
 }
 
 #poster{
-max-width:280px;
+max-width:300px;
 width:92%;
-border-radius:18px;
-box-shadow:0 0 30px rgba(0,0,0,.6);
+border-radius:20px;
+box-shadow:
+0 20px 45px rgba(0,0,0,.55),
+0 0 18px rgba(255,215,0,.12);
 display:block;
 margin:auto;
-position:relative;
-z-index:60;
 }
 
 #filmName{
-font-size:34px;
-font-weight:bold;
-margin-top:16px;
-line-height:1.2;
-position:relative;
-z-index:60;
-color:#fff8dc;
-text-shadow:0 0 10px rgba(0,0,0,.55);
+font-family:'Cinzel', serif;
+font-size:36px;
+font-weight:700;
+margin-top:18px;
+line-height:1.25;
+color:#ffe7a0;
+letter-spacing:1px;
+text-shadow:
+0 0 8px rgba(255,215,0,.18),
+0 0 16px rgba(0,0,0,.45);
 }
 
 #hub{
@@ -260,6 +264,22 @@ margin-top:10px;
 font-size:14px;
 cursor:pointer;
 opacity:.8;
+}
+
+.flash{
+position:fixed;
+inset:0;
+background:radial-gradient(circle, rgba(255,215,0,.32), transparent 55%);
+pointer-events:none;
+opacity:0;
+animation:flashReveal .7s ease;
+z-index:100;
+}
+
+@keyframes flashReveal{
+0%{opacity:0;}
+30%{opacity:1;}
+100%{opacity:0;}
 }
 
 @keyframes fade{
@@ -404,9 +424,27 @@ saveToSheet(name,chosen.name);
 }
 
 function showResult(f){
-document.getElementById("resultBox").style.display="block";
-document.getElementById("poster").src=f.img;
-document.getElementById("filmName").innerHTML="🎉<br>"+f.name;
+
+let flash=document.createElement("div");
+flash.className="flash";
+document.body.appendChild(flash);
+
+setTimeout(()=>flash.remove(),700);
+
+let box=document.getElementById("resultBox");
+let poster=document.getElementById("poster");
+let title=document.getElementById("filmName");
+
+poster.src=f.img;
+title.innerHTML="🎬 Твоя судьба на вечер:<br>"+f.name;
+
+box.style.display="block";
+
+setTimeout(()=>{
+box.style.opacity="1";
+box.style.transform="translateY(0) scale(1)";
+},80);
+
 }
 
 function saveToSheet(name,film){
