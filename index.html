@@ -178,6 +178,9 @@ filter:brightness(1.06);
 
 #resultBox{
 display:none;
+display:flex;
+flex-direction:column;
+align-items:center;
 margin-top:10px;
 position:relative;
 z-index:50;
@@ -187,19 +190,44 @@ transition:all .8s ease;
 }
 
 #poster{
+position:relative;
+z-index:2;
+
 max-width:220px;
 width:68vw;
 max-height:52vh;
 object-fit:cover;
+
 border-radius:20px;
+
 box-shadow:
-0 20px 45px rgba(0,0,0,.55),
-0 0 18px rgba(255,215,0,.12);
+0 20px 45px rgba(0,0,0,.55);
+
 display:block;
 margin:auto;
-animation:
-posterFloat 4s ease-in-out infinite,
-posterGlow 3s ease-in-out infinite;
+
+animation:posterFloat 4s ease-in-out infinite;
+}
+
+#resultBox::before{
+content:"";
+position:absolute;
+top:90px;
+width:240px;
+height:320px;
+border-radius:50%;
+
+background:
+radial-gradient(circle,
+rgba(255,215,0,.30) 0%,
+rgba(255,215,0,.14) 38%,
+rgba(255,215,0,.05) 62%,
+transparent 75%);
+
+filter:blur(24px);
+
+z-index:1;
+animation:haloPulse 3.4s ease-in-out infinite;
 }
 
 #filmName{
@@ -318,6 +346,17 @@ box-shadow:
 0 20px 45px rgba(0,0,0,.55),
 0 0 28px rgba(255,215,0,.38),
 0 0 52px rgba(255,215,0,.22);
+}
+
+@keyframes haloPulse{
+0%,100%{
+transform:scale(1);
+opacity:.55;
+}
+50%{
+transform:scale(1.08);
+opacity:.95;
+}
 }
 
 @keyframes fade{
