@@ -94,28 +94,27 @@ inset 0 -18px 35px rgba(0,0,0,.28);
 transition:transform 5s cubic-bezier(.15,.8,.2,1);
 
 background:
-conic-gradient(
-#5a0000 0deg 17.142deg,
-#8f0000 17.142deg 34.284deg,
-#6a0000 34.284deg 51.426deg,
-#a40000 51.426deg 68.568deg,
-#4c0000 68.568deg 85.710deg,
-#920000 85.710deg 102.852deg,
-#640000 102.852deg 119.994deg,
-#a80000 119.994deg 137.136deg,
-#5a0000 137.136deg 154.278deg,
-#9b0000 154.278deg 171.420deg,
-#5a0000 171.420deg 188.562deg,
-#8f0000 188.562deg 205.704deg,
-#6a0000 205.704deg 222.846deg,
-#a40000 222.846deg 239.988deg,
-#4c0000 239.988deg 257.130deg,
-#920000 257.130deg 274.272deg,
-#640000 274.272deg 291.414deg,
-#a80000 291.414deg 308.556deg,
-#5a0000 308.556deg 325.698deg,
-#9b0000 325.698deg 342.840deg,
-#5a0000 342.840deg 360deg
+repeating-conic-gradient(
+from 0deg,
+#5a0000 0deg 8.5714deg,
+#8f0000 8.5714deg 17.1428deg
+);
+background-size:100% 100%;
+}
+
+#wheel::before{
+content:"";
+position:absolute;
+inset:0;
+border-radius:50%;
+pointer-events:none;
+z-index:3;
+
+background:
+repeating-conic-gradient(
+from 0deg,
+transparent 0deg 16.55deg,
+rgba(255,215,0,.70) 16.55deg 17.1428deg
 );
 }
 
