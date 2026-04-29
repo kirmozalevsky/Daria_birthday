@@ -183,7 +183,7 @@ margin-top:26px;
 position:relative;
 z-index:50;
 opacity:0;
-transform:translateY(30px) scale(.92);
+transform:translateY(35px) scale(.88);
 transition:all .9s ease;
 }
 
@@ -209,6 +209,10 @@ letter-spacing:1px;
 text-shadow:
 0 0 8px rgba(255,215,0,.18),
 0 0 16px rgba(0,0,0,.45);
+
+opacity:0;
+transform:translateY(18px);
+transition:all .7s ease;
 }
 
 #hub{
@@ -269,16 +273,22 @@ opacity:.8;
 .flash{
 position:fixed;
 inset:0;
-background:radial-gradient(circle, rgba(255,215,0,.32), transparent 55%);
+background:
+radial-gradient(circle,
+rgba(255,240,180,.95) 0%,
+rgba(255,215,0,.65) 18%,
+rgba(255,180,0,.18) 45%,
+transparent 72%);
 pointer-events:none;
 opacity:0;
-animation:flashReveal .7s ease;
-z-index:100;
+animation:flashReveal .9s ease-out;
+z-index:999;
 }
 
 @keyframes flashReveal{
 0%{opacity:0;}
-30%{opacity:1;}
+15%{opacity:1;}
+55%{opacity:.7;}
 100%{opacity:0;}
 }
 
@@ -295,7 +305,7 @@ to{opacity:1;transform:scale(1);}
 <div class="sub">Luxury Full Final Edition</div>
 
 <div id="wheelWrap">
-  <div id="pointer">▼</div>
+  <div id="pointer"></div>
   <div id="wheel">
     <div id="hub"></div>
   </div>
@@ -429,7 +439,7 @@ let flash=document.createElement("div");
 flash.className="flash";
 document.body.appendChild(flash);
 
-setTimeout(()=>flash.remove(),700);
+setTimeout(()=>flash.remove(),900);
 
 let box=document.getElementById("resultBox");
 let poster=document.getElementById("poster");
@@ -443,7 +453,12 @@ box.style.display="block";
 setTimeout(()=>{
 box.style.opacity="1";
 box.style.transform="translateY(0) scale(1)";
-},80);
+},120);
+
+setTimeout(()=>{
+title.style.opacity="1";
+title.style.transform="translateY(0)";
+},650);
 
 }
 
