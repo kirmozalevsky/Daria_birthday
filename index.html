@@ -508,7 +508,7 @@ let name=document.getElementById("name").value.trim();
 if(!name){msg("Введите имя");return;}
 
 let players=JSON.parse(localStorage.getItem("players"))||{};
-let used=JSON.parse(localStorage.getItem("used"))||[];
+let usedLocal=JSON.parse(localStorage.getItem("used"))||[];
 let key=norm(name);
 
 if(players[key]){
@@ -520,12 +520,12 @@ fetch(sheetURL)
 .then(res => res.json())
 .then(availableNames => {
 
-if(availableNames.length === 0){
+if(!availableNames || availableNames.length===0){
 msg("Все фильмы разобраны 🎬");
 return;
 }
 
-// фильтруем из твоего массива с картинками
+// фильтруем фильмы с картинками
 let available = films.filter(f => availableNames.includes(f.name));
 
 let chosen = available[Math.floor(Math.random()*available.length)];
@@ -546,9 +546,6 @@ document.getElementById("spinSound").pause();
 document.getElementById("spinSound").currentTime=0;
 playSound("winSound");
 
-let players=JSON.parse(localStorage.getItem("players"))||{};
-let usedLocal=JSON.parse(localStorage.getItem("used"))||[];
-
 players[key]=chosen.name;
 usedLocal.push(chosen.name);
 
@@ -567,47 +564,11 @@ saveToSheet(name,chosen.name);
 
 },5200);
 
+})
+.catch(err=>{
+console.error(err);
+msg("Ошибка загрузки 😢");
 });
-
-if(available.length===0){
-msg("Все фильмы разобраны 🎬");
-return;
-}
-
-let chosen=available[Math.floor(Math.random()*available.length)];
-
-startMusic();
-playSound("spinSound");
-
-let index=films.findIndex(f=>f.name===chosen.name);
-let sector=360/films.length;
-let stop=360-(index*sector)-sector/2;
-
-angle += 360*6 + stop;
-wheel.style.transform="rotate("+angle+"deg)";
-
-setTimeout(()=>{
-document.getElementById("spinSound").pause();
-document.getElementById("spinSound").currentTime=0;
-playSound("winSound");
-
-players[key]=chosen.name;
-used.push(chosen.name);
-
-localStorage.setItem("players",JSON.stringify(players));
-localStorage.setItem("used",JSON.stringify(used));
-
-wheelWrap.style.opacity="0";
-wheelWrap.style.transform="scale(.7)";
-
-setTimeout(()=>{
-wheelWrap.style.display="none";
-showResult(chosen);
-},700);
-
-saveToSheet(name,chosen.name);
-
-},5200);
 
 }
 
