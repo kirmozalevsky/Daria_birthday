@@ -54,8 +54,8 @@ margin-bottom:14px;
 #wheelWrap{
 position:relative;
 
-width:min(90vw, 360px);  /* 🔥 адаптив */
-height:min(90vw, 360px);
+width:min(90vw, 360px);
+aspect-ratio:1/1; /* 🔥 ключевой фикс */
 
 margin:20px 0;
 
@@ -130,6 +130,7 @@ drop-shadow(0 6px 8px rgba(0,0,0,.35));
 .panel{
 width:100%;
 max-width:420px;
+display:block;
 margin:auto;
 background:rgba(255,255,255,.06);
 padding:22px;
