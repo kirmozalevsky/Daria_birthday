@@ -13,13 +13,20 @@
 body{
 margin:0;
 font-family:'Playfair Display', serif;
+
 background:
 radial-gradient(circle at top, #5c0000 0%, #2a0000 35%, #140000 100%);
+
 color:white;
-text-align:center;
+
 min-height:100vh;
-padding:20px;
-position:relative;
+
+display:flex;
+flex-direction:column;
+align-items:center;   /* 🔥 центр по горизонтали */
+
+padding:20px 12px;    /* уменьшили боковые отступы */
+
 overflow-x:hidden;
 }
 
@@ -46,12 +53,17 @@ margin-bottom:14px;
 
 #wheelWrap{
 position:relative;
-width:360px;
-height:360px;
-margin:22px auto;
-transition:.8s;
+
+width:min(90vw, 360px);  /* 🔥 адаптив */
+height:min(90vw, 360px);
+
+margin:20px 0;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
 z-index:10;
-filter:drop-shadow(0 20px 30px rgba(0,0,0,.35));
 }
 
 #wheel{
@@ -116,7 +128,8 @@ drop-shadow(0 6px 8px rgba(0,0,0,.35));
 }
 
 .panel{
-max-width:430px;
+width:100%;
+max-width:420px;
 margin:auto;
 background:rgba(255,255,255,.06);
 padding:22px;
