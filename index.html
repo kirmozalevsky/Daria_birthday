@@ -508,7 +508,11 @@ isSpinning=true;
 clearUI();
 
 let name=document.getElementById("name").value.trim();
-if(!name){msg("Введите имя");return;}
+if(!name){
+  msg("Введите имя");
+  isSpinning = false; // 🔥 ВАЖНО
+  return;
+}
 
 let players=JSON.parse(localStorage.getItem("players"))||{};
 let usedLocal=JSON.parse(localStorage.getItem("used"))||[];
