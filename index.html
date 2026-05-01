@@ -469,6 +469,8 @@ to{opacity:1;transform:scale(1);}
 <script>
 const sheetURL="https://script.google.com/macros/s/AKfycbxDZORaOu9FEk_9-DDzJScB1_f9tPoeoYCSBDUlszitjiJmg2-0EfZ5WmtaatFWEGGWVg/exec";
 
+let currentChoise=null;
+let isSpinning=false; 
 let muted=false;
 let wheel=document.getElementById("wheel");
 let wheelWrap=document.getElementById("wheelWrap");
@@ -501,7 +503,8 @@ let films=[
 function norm(v){return v.trim().toLowerCase();}
 
 function play(){
-
+if(isSpinning)=return;
+isSpinning=true;
 clearUI();
 
 let name=document.getElementById("name").value.trim();
@@ -509,7 +512,14 @@ if(!name){msg("Введите имя");return;}
 
 let players=JSON.parse(localStorage.getItem("players"))||{};
 let usedLocal=JSON.parse(localStorage.getItem("used"))||[];
-let key=norm(name);
+let key = norm(name);
+
+// если уже выбирали — вернуть тот же фильм
+if(currentChoice){
+showResult(currentChoice);
+isSpinning = false;
+return;
+}
 
 if(players[key]){
 msg("⚠️ По этому имени фильм уже выбран.");
@@ -529,6 +539,7 @@ return;
 let available = films.filter(f => availableNames.includes(f.name));
 
 let chosen = available[Math.floor(Math.random()*available.length)];
+  currentChoise=chosen;
 
 startMusic();
 playSound("spinSound");
@@ -561,7 +572,7 @@ showResult(chosen);
 },700);
 
 saveToSheet(name,chosen.name);
-
+isSpinning=false;
 },5200);
 
 })
