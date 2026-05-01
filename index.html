@@ -469,7 +469,7 @@ to{opacity:1;transform:scale(1);}
 <script>
 const sheetURL="https://script.google.com/macros/s/AKfycbxDZORaOu9FEk_9-DDzJScB1_f9tPoeoYCSBDUlszitjiJmg2-0EfZ5WmtaatFWEGGWVg/exec";
 
-let currentChoise=null;
+let currentChoice=null;
 let isSpinning=false; 
 let muted=false;
 let wheel=document.getElementById("wheel");
@@ -543,7 +543,7 @@ return;
 let available = films.filter(f => availableNames.includes(f.name));
 
 let chosen = available[Math.floor(Math.random()*available.length)];
-  currentChoise=chosen;
+  currentChoice=chosen;
 
 startMusic();
 playSound("spinSound");
