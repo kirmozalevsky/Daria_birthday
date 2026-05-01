@@ -20,12 +20,11 @@ radial-gradient(circle at top, #5c0000 0%, #2a0000 35%, #140000 100%);
 color:white;
 
 min-height:100vh;
+text-align:center;
 
-display:flex;
 flex-direction:column;
-align-items:center;   /* 🔥 центр по горизонтали */
 
-padding:20px 12px;    /* уменьшили боковые отступы */
+padding:20px;    /* уменьшили боковые отступы */
 
 overflow-x:hidden;
 }
@@ -53,15 +52,10 @@ margin-bottom:14px;
 
 #wheelWrap{
 position:relative;
+width:340px;
+height:340px;
 
-width:min(90vw, 360px);
-aspect-ratio:1/1; /* 🔥 ключевой фикс */
-
-margin:20px 0;
-
-display:flex;
-align-items:center;
-justify-content:center;
+margin:20px auto;
 
 z-index:10;
 }
@@ -131,7 +125,7 @@ drop-shadow(0 6px 8px rgba(0,0,0,.35));
 width:100%;
 max-width:420px;
 display:block;
-margin:auto;
+margin:20px auto;
 background:rgba(255,255,255,.06);
 padding:22px;
 border-radius:18px;
